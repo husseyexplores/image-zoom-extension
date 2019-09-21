@@ -11,9 +11,9 @@ function debug(...args) {
 function handleCtrlEnter(e) {
 	debug('1. Trigger')
 
-	// If the dom has more than 1 elements, then it's must not be image
-	const childElementCount = document.body.childElementCount === 1
-	if (childElementCount > 1) {
+	// If the dom has more than 1 elements (or less), then it's must not be image
+	const childElementCount = document.body.childElementCount
+	if (childElementCount !== 1) {
 		return
 	}
 
