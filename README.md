@@ -4,7 +4,8 @@ If you open an HD (zoomable) image in your browser tab, then you can click the i
 To toggle the zoom with your keyboard, just press `CTRL + Enter`.
 
 ## Installation
-Download links for Chrome and Firefox will be added soon, once the extension is published in the respective stores.
+ - [Install on Chrome](https://chrome.google.com/webstore/detail/ctrl%20enter-image-zoom/mbanbfmeljdgjcbifknlfdedhdnnepkj "Chrome")
+ - [Install on FireFox](https://addons.mozilla.org/en-GB/firefox/addon/ctrl-enter-image-zoom/ "FireFox")
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE](https://github.com/husseyexplores/image-zoom-extension/blob/master/LICENSE "License") file for details
