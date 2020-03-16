@@ -7,6 +7,30 @@ function debug(...args) {
 
 // ---------------------------------------------------------------------------
 
+function click({ x, y }){
+	const ev = new MouseEvent('click', {
+		view: window,
+		bubbles: true,
+		cancelable: true,
+		screenX: x,
+		screenY: y,
+		clientX: x,
+		clientY: y,
+		pageX: x,
+		pageY: y
+	})
+
+	const el = document.elementFromPoint(x, y);
+	if (!el) return debug('Not clicked')
+	el.dispatchEvent(ev);
+}
+
+function getCenterXY() {
+	const x = document.body.clientWidth / 2
+	const y = document.body.clientHeight / 2
+	return { x , y }
+}
+
 // Listener
 function handleCtrlEnter(e) {
 	debug('1. Trigger')
@@ -27,12 +51,10 @@ function handleCtrlEnter(e) {
 	const isCtrlPressed = (e.keyCode == 13 || e.keyCode == 10);
 
 	// If CTRL+Enter is pressed, trigger the click on img
-	if (isCtrlPressed  &&  isEnterPressed) {
+	if (isCtrlPressed && isEnterPressed) {
 		debug('2. Ctrl + Enter')
-		if (img.click) {
-			img.click();
-			debug('3. Clicked')
-		}
+		click(getCenterXY())
+		debug('3. Clicked')
 	}
 }
 
