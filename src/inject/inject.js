@@ -73,40 +73,27 @@ let up = false,
 
 const PX = 300;
 
-function press(e) {
-  if (e.keyCode === 38 /* up */ || e.keyCode === 87 /* w */ || e.keyCode === 90 /* z */){
-    up = true
-  }
-  if (e.keyCode === 39 /* right */ || e.keyCode === 68 /* d */){
-    right = true
-  }
-  if (e.keyCode === 40 /* down */ || e.keyCode === 83 /* s */){
-    down = true
-  }
-  if (e.keyCode === 37 /* left */ || e.keyCode === 65 /* a */ || e.keyCode === 81 /* q */){
-    left = true
-  }
+const isKeyCode = (e, code) => e.keyCode === code || e.which === code;
+const keys = { w: 87, d: 68, s: 83, a: 65, }
 
-   if (up) scrollBy(0, -PX);
-   if (down) scrollBy(0, PX);
-   if (right) scrollBy(PX, 0);
-   if (left) scrollBy(-PX, 0);
+function press(e) {
+  if (isKeyCode(e, keys.w)) { up = true}
+  if (isKeyCode(e, keys.d)) { right = true}
+  if (isKeyCode(e, keys.s)) { down = true}
+  if (isKeyCode(e, keys.a)) { left = true}
+
+	if (up) scrollBy(0, -PX);
+	if (down) scrollBy(0, PX);
+	if (right) scrollBy(PX, 0);
+	if (left) scrollBy(-PX, 0);
 }
 document.addEventListener('keydown',press)
 
 function release(e){
-  if (e.keyCode === 38 /* up */ || e.keyCode === 87 /* w */ || e.keyCode === 90 /* z */){
-    up = false
-  }
-  if (e.keyCode === 39 /* right */ || e.keyCode === 68 /* d */){
-    right = false
-  }
-  if (e.keyCode === 40 /* down */ || e.keyCode === 83 /* s */){
-    down = false
-  }
-  if (e.keyCode === 37 /* left */ || e.keyCode === 65 /* a */ || e.keyCode === 81 /* q */){
-    left = false
-  }
+  if (isKeyCode(e, keys.w)) { up = false}
+  if (isKeyCode(e, keys.d)) { right = false}
+  if (isKeyCode(e, keys.s)) { down = false}
+  if (isKeyCode(e, keys.a)) { left = false}
 }
 document.addEventListener('keyup',release)
 
