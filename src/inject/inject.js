@@ -111,4 +111,4 @@ function release(e){
 document.addEventListener('keyup',release)
 
 // Smooth scroll
-document.querySelector('html').style['scroll-behavior']
+document.querySelector('html').style['scroll-behavior'] = 'smooth';
