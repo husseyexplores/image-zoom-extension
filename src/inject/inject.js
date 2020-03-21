@@ -47,16 +47,68 @@ function handleCtrlEnter(e) {
 		return
 	}
 
-	const isEnterPressed = e.ctrlKey || e.metaKey;
-	const isCtrlPressed = (e.keyCode == 13 || e.keyCode == 10);
+	const isSpacePressed = e.keyCode === 32 || e.which === 32 || e.key === ' '
+	const isCtrlPressed = e.ctrlKey || e.metaKey;
+	const isEnterPressed = e.keyCode == 13 || e.which === 13 || e.keyCode == 10;
 
+	const ctrlEnter = isCtrlPressed && isEnterPressed
+	const ctrlSpace = isCtrlPressed && isSpacePressed
 	// If CTRL+Enter is pressed, trigger the click on img
-	if (isCtrlPressed && isEnterPressed) {
-		debug('2. Ctrl + Enter')
-		click(getCenterXY())
+	if (ctrlEnter || ctrlSpace) {
+		debug('2. Ctrl + Enter/Space')
+		click(getCenterXY()) // zoom image by triggering click
 		debug('3. Clicked')
 	}
 }
 
 // Start listening
 document.addEventListener('keydown',  handleCtrlEnter);
+
+
+/* ASDF → arrow keys simulation*/
+let up = false,
+    right = false,
+    down = false,
+	  left = false;
+
+const PX = 300;
+
+function press(e) {
+  if (e.keyCode === 38 /* up */ || e.keyCode === 87 /* w */ || e.keyCode === 90 /* z */){
+    up = true
+  }
+  if (e.keyCode === 39 /* right */ || e.keyCode === 68 /* d */){
+    right = true
+  }
+  if (e.keyCode === 40 /* down */ || e.keyCode === 83 /* s */){
+    down = true
+  }
+  if (e.keyCode === 37 /* left */ || e.keyCode === 65 /* a */ || e.keyCode === 81 /* q */){
+    left = true
+  }
+
+   if (up) scrollBy(0, -PX);
+   if (down) scrollBy(0, PX);
+   if (right) scrollBy(PX, 0);
+   if (left) scrollBy(-PX, 0);
+}
+document.addEventListener('keydown',press)
+
+function release(e){
+  if (e.keyCode === 38 /* up */ || e.keyCode === 87 /* w */ || e.keyCode === 90 /* z */){
+    up = false
+  }
+  if (e.keyCode === 39 /* right */ || e.keyCode === 68 /* d */){
+    right = false
+  }
+  if (e.keyCode === 40 /* down */ || e.keyCode === 83 /* s */){
+    down = false
+  }
+  if (e.keyCode === 37 /* left */ || e.keyCode === 65 /* a */ || e.keyCode === 81 /* q */){
+    left = false
+  }
+}
+document.addEventListener('keyup',release)
+
+// Smooth scroll
+document.querySelector('html').style['scroll-behavior']
