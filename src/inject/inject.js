@@ -5,14 +5,24 @@ function debug(...args) {
 	console.log(...args)
 }
 
+function log(...args) {
+	args.forEach(arg => {
+		console.log(`%c[IMG-CTRL-ALT-ZOOM] =>  ${arg}`, `background: mediumvioletred; color: #fff; padding: 5px 10px; display: inline-block; font-family: monospace; font-size: 13px; border-radius: 3px; letter-spacing: 0.1em;`)
+	})
+}
+
 // ---------------------------------------------------------------------------
 
 const initialize = () => {
 	// If the dom has more than 1 elements (or less), then it's must not be image
-	const imgs = document.body.querySelectorAll('img')
-	if (imgs.length !== 1) {
+	const imgsCount = document.body.getElementsByTagName('img').length
+	const allElsCount = document.body.getElementsByTagName('*').length
+	if (imgsCount !== 1 || allElsCount > 5) {
+		log(`Not initialized. (imgs length: ${imgsCount})`)
 		return
 	}
+
+	log('Initialized')
 
 	function click({ x, y }){
 		const ev = new MouseEvent('click', {
@@ -72,10 +82,10 @@ const initialize = () => {
 	const keys = { w: 87, d: 68, s: 83, a: 65, }
 
 	function press(e) {
-		if (isKeyCode(e, keys.w)) { up = true}
-		if (isKeyCode(e, keys.d)) { right = true}
-		if (isKeyCode(e, keys.s)) { down = true}
-		if (isKeyCode(e, keys.a)) { left = true}
+		if (isKeyCode(e, keys.w)) { up = true }
+		if (isKeyCode(e, keys.d)) { right = true }
+		if (isKeyCode(e, keys.s)) { down = true }
+		if (isKeyCode(e, keys.a)) { left = true }
 
 		if (up) scrollBy(0, -PX);
 		if (down) scrollBy(0, PX);
@@ -85,10 +95,10 @@ const initialize = () => {
 	document.addEventListener('keydown',press)
 
 	function release(e){
-		if (isKeyCode(e, keys.w)) { up = false}
-		if (isKeyCode(e, keys.d)) { right = false}
-		if (isKeyCode(e, keys.s)) { down = false}
-		if (isKeyCode(e, keys.a)) { left = false}
+		if (isKeyCode(e, keys.w)) { up = false }
+		if (isKeyCode(e, keys.d)) { right = false }
+		if (isKeyCode(e, keys.s)) { down = false }
+		if (isKeyCode(e, keys.a)) { left = false }
 	}
 	document.addEventListener('keyup',release)
 
@@ -98,5 +108,6 @@ const initialize = () => {
 }
 
 window.setTimeout(() => {
+	log('Initializing...')
 	initialize()
 }, 100);
