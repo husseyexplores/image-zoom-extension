@@ -48,27 +48,19 @@ const initialize = () => {
 		return { x , y }
 	}
 
+	const isKeyCode = (e, code) => e.keyCode === code || e.which === code;
+	const keys = { w: 87, d: 68, s: 83, a: 65, z: 90 }
+
 	// Listener
-	function handleCtrlEnter(e) {
+	function handleZoom(e) {
 		debug('1. Trigger')
-
-		const isSpacePressed = e.keyCode === 32 || e.which === 32 || e.key === ' '
-		const isCtrlPressed = e.ctrlKey || e.metaKey;
-		const isEnterPressed = e.keyCode == 13 || e.which === 13 || e.keyCode == 10;
-
-		const ctrlEnter = isCtrlPressed && isEnterPressed
-		const ctrlSpace = isCtrlPressed && isSpacePressed
 		// If CTRL+Enter is pressed, trigger the click on img
-		if (ctrlEnter || ctrlSpace) {
-			debug('2. Ctrl + Enter/Space')
+		if (isKeyCode(e, keys.z)) {
+			debug('2. `Z` pressed')
 			click(getCenterXY()) // zoom image by triggering click
 			debug('3. Clicked')
 		}
 	}
-
-	// Start listening
-	document.addEventListener('keydown',  handleCtrlEnter);
-
 
 	/* ASDF → arrow keys simulation*/
 	let up = false,
@@ -78,10 +70,7 @@ const initialize = () => {
 
 	const PX = 300;
 
-	const isKeyCode = (e, code) => e.keyCode === code || e.which === code;
-	const keys = { w: 87, d: 68, s: 83, a: 65, }
-
-	function press(e) {
+	function handleScroll(e) {
 		if (isKeyCode(e, keys.w)) { up = true }
 		if (isKeyCode(e, keys.d)) { right = true }
 		if (isKeyCode(e, keys.s)) { down = true }
@@ -92,15 +81,22 @@ const initialize = () => {
 		if (right) scrollBy(PX, 0);
 		if (left) scrollBy(-PX, 0);
 	}
-	document.addEventListener('keydown',press)
 
-	function release(e){
+	function keydownListener(e) {
+		handleZoom(e)
+		handleScroll(e)
+	}
+
+	document.addEventListener('keydown',keydownListener)
+
+	// Reset directions on keyup
+	function  keyupListener(e){
 		if (isKeyCode(e, keys.w)) { up = false }
 		if (isKeyCode(e, keys.d)) { right = false }
 		if (isKeyCode(e, keys.s)) { down = false }
 		if (isKeyCode(e, keys.a)) { left = false }
 	}
-	document.addEventListener('keyup',release)
+	document.addEventListener('keyup', keyupListener)
 
 	// Smooth scroll
 	document.querySelector('html').style['scroll-behavior'] = 'smooth';
